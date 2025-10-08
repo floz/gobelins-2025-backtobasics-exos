@@ -3,18 +3,24 @@ import { gsap } from "gsap";
 export default class Cell {
 
 	constructor( x, y, size, color ) {
-		this.x = x
-		this.y = y
+		this._xOrigin = x
+		this._yOrigin = y
 		this.size = size
 		this.color = color
-		this.scale = 1
-		this.ox = x
-		this.oy = y
+		this.reset()
+	}
+
+	reset() {
+		this.x = this._xOrigin
+		this.y = this._yOrigin
+		this.ox = this.x
+		this.oy = this.y
+		this.scale = 0
 		this.lineAlpha = 0
 		this.lineScale = 1
+		this.isAlive = true
 
 		this.ease = Math.random() < .5 ? "expo.out" : "bounce.out"
-
 		this.life = 2 + Math.round( Math.random() * 3 )
 	}
 
@@ -65,11 +71,16 @@ export default class Cell {
 		const duration = 1 + Math.random() * 1
 		this._animLine( duration )
 
+		gsap.to( this, {
+			scale: 1,
+			duration: .5,
+		})
     gsap.to( this, {
       x: isX ? this.x + Math.random() * 100 - 50 : this.x,
       y: !isX ? this.y + Math.random() * 100 - 50 : this.y,
       duration,
 			ease: this.ease,
+			delay: .5,
       onComplete: this.nextStep
     } )
 	}
@@ -78,7 +89,10 @@ export default class Cell {
 		if( this.life <= 0 ) {
 			gsap.to( this, {
 				scale: 0,
-				duration: 1
+				duration: 1,
+				onComplete: () => {
+					this.isAlive = false
+				}
 			} )
 			return
 		}

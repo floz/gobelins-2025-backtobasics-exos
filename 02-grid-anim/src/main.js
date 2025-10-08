@@ -83,11 +83,30 @@ function drawCells() {
 createCells()
 // drawCells()
 
+function restart() {
+  for( const cell of cells ) {
+    cell.reset()
+  }
+  gsap.delayedCall( 1, initAnim )
+}
+
 function renderLoop() {
   ctx.fillStyle = 'rgba( 255, 255, 255, .6 )'
   ctx.fillRect( 0, 0, canvas.width, canvas.height )
 
   drawCells()
+
+  let isDead = true
+  for( const cell of cells ) {
+    if( cell.isAlive ) {
+      isDead = false
+    }
+  }
+
+
+  if( isDead ) {
+    restart()
+  }
 
   requestAnimationFrame( renderLoop )
 }
