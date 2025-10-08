@@ -1,6 +1,8 @@
 import './style.css'
 import { gsap } from "gsap";
 
+import Cell from './Cell';
+
 const canvas = document.createElement( 'canvas' )
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -15,7 +17,7 @@ ctx.clearRect( 0, 0, canvas.width, canvas.height )
 //
 
 const data = {
-  cols: 25,
+  cols: 10,
   lines: 25,
   cellSize: 20,
 }
@@ -66,14 +68,7 @@ function createCells() {
       let y = yo + iy * data.cellSize
 
       const color = palette[ Math.floor( Math.random() * palette.length ) ]
-      const cell =  { 
-        x,
-        y,
-        color,
-        scale: 1,
-        size: data.cellSize,
-        life: 2 + Math.round( Math.random() * 3 )
-      }
+      const cell = new Cell( x, y, data.cellSize, color )
       cells.push( cell )
     }
   }
@@ -81,23 +76,7 @@ function createCells() {
 
 function drawCells() {
   for( const cell of cells ) {
-    const size = cell.size //* cell.scale
-    
-    ctx.fillStyle = cell.color
-    ctx.save()
-    ctx.beginPath()
-
-    ctx.translate( cell.x, cell.y )
-
-    ctx.translate( size * .5, size * .5 )
-    ctx.scale( cell.scale, cell.scale )
-    ctx.translate( -size * .5, -size * .5)
-  
-    ctx.rect( 0, 0, size, size )
-    ctx.fill()
-
-    ctx.closePath()
-    ctx.restore()
+    cell.draw( ctx )
   }
 }
 
@@ -116,43 +95,12 @@ renderLoop()
 
 //
 
-function nextAnim( cell ) {
-  if( cell.life <= 0 ) {
-    gsap.to( cell, {
-      scale: 0,
-      duration: 1
-    } )
-    return
-  }
-
-  const isX = Math.random() < .5
-  const isY = !isX
-  const isScaleChanging = Math.random() < .5
-
-  cell.life -= 1
-  gsap.to( cell, {
-    x: isX ? cell.x + Math.random() * 100 - 50 : cell.x,
-    y: isY ? cell.y + Math.random() * 100 - 50 : cell.y,
-    scale: Math.random() * 2,
-    duration: 1 + Math.random() * 1,
-    onComplete: nextAnim,
-    onCompleteParams: [ cell ]
-  } )
-}
-
 function initAnim() {
   for( const cell of cells ) {
-    const isX = Math.random() < .5
-    gsap.to( cell, {
-      x: isX ? cell.x + Math.random() * 100 - 50 : cell.x,
-      y: !isX ? cell.y + Math.random() * 100 - 50 : cell.y,
-      duration: 1 + Math.random() * 1,
-      onComplete: nextAnim,
-      onCompleteParams: [ cell ]
-    } )
+    cell.animate()
   }
 }
-initAnim()
+gsap.delayedCall( 1, initAnim )
 
 
 
