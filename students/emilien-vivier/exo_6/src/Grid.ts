@@ -15,7 +15,7 @@ export default class Grid {
     private isReady = false
     private radius = 300
     private amplitude = 10
-    private noiseFactor = 0.005
+    private noiseFactor = 0.002
     private elapsedTime = 0
     private yCount = 0
     private xCount = 0
@@ -97,13 +97,13 @@ export default class Grid {
                 this.createGrid()
             })
 
-        this.GUI.GUI.add(values, 'noiseFactor', 0, 10, 0.0001)
+        this.GUI.GUI.add(values, 'noiseFactor', 0, 0.1, 0.0001)
             .onChange((e: any) => {
                 this.noiseFactor = e
                 this.createGrid()
             })
 
-        this.GUI.GUI.add(values, 'yCount', 0, 1000, 1)
+        this.GUI.GUI.add(values, 'yCount', 0, 50, 1)
             .onChange((e: any) => {
                 this.yCount = e
                 this.xCount = Math.max(1, this.xCount)
@@ -114,7 +114,7 @@ export default class Grid {
                 this.createGrid()
             })
 
-        this.GUI.GUI.add(values, 'xCount', 0, 1000, 1)
+        this.GUI.GUI.add(values, 'xCount', 0, 50, 1)
             .onChange((e: any) => {
                 this.xCount = e
                 this.yCount = Math.max(1, this.yCount)
