@@ -1,0 +1,30 @@
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+  background-color: #1E1E1E;
+}
+
+#input-img::file-selector-button {
+  border: none;
+  outline: none;
+  background:rgba(255,255,255,0.25);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+#canvas {
+  position: absolute;
+  top : 50%;
+  left : 50%;
+  transform: translate(-50%, -50%);
+}
