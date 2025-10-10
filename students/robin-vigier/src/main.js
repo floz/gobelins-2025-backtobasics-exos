@@ -14,7 +14,8 @@ const data = {
   cellSize: 20,
   cellNumber: 200,
   color: "#2650e8ff",
-  maxDistance: 200
+  maxDistance: 200,
+  friction: 0.01
 }
 let cells = null;
 
@@ -30,13 +31,13 @@ function genCells() {
 
   for (let i = 0; i < data.cellNumber; i++) {
 
-    const cell = new Cell(data.cellSize);
+    const cell = new Cell(data.cellSize, canvas.width, canvas.height);
 
     const [x, y] = getAleatoryPosition();
     cell.setPosition(x, y);
     
-    cell.animateDirection(canvas.width, canvas.height);
-
+    // cell.animateDirection(canvas.width, canvas.height);
+    cell.getAleatoryDirection();
     cells.push(cell);
 
   }
@@ -69,6 +70,7 @@ window.requestAnimationFrame(tick);
 const gui = new GUI();
 gui.add(data, 'cellSize', 5, 50, 1).name("Size");
 gui.add(data, 'cellNumber', 10, 500, 1).name("Entity").onChange(genCells);
+gui.add(data, 'friction', 0, 0.1, 0.001).name("Speed");
 gui.add(data, 'maxDistance', 10, 500, 1).name("Distance").onChange(() => {
   cells.forEach(cell => {
     cell.setOther(cells);
