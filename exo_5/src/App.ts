@@ -56,7 +56,6 @@ export default class App {
         !isFirstCall && (() => {
 
             // this.imageLoader.browseImage(this.grid.lines, this.grid.columns)
-            this.grid.calcLineAndCols()
             this.grid.createGrid()
             this.draw();
 

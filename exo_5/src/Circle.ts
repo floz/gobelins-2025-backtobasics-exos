@@ -8,8 +8,8 @@ export default class Circle {
     private app: App
     private ctx: CanvasRenderingContext2D
 
-    private x: number
-    private y: number
+    public x: number
+    public y: number
     private ox: number
     private oy: number
 
