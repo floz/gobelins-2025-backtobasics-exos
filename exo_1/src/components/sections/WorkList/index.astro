@@ -1,0 +1,237 @@
+---
+import Splitter from "../../utils/Splitter/index.astro";
+import Style from "./style.module.scss";
+import PictureAndDescription from "../../molecules/PictureAndDescription/index.astro"
+const path = "/images"
+const createImage = (name: string, alt: string) => {
+    return {
+        mobile1x:`${path}/${name}-1x.jpg`,
+        mobile2x:`${path}/${name}-2x.jpg`,
+        mobile1xWEBP:`${path}/${name}-1x.webp`,
+        mobile2xWEBP:`${path}/${name}-2x.webp`,
+        desktop1x:`${path}/${name}-1x.jpg`,
+        desktop2x:`${path}/${name}-2x.jpg`,
+        desktop1xWEBP:`${path}/${name}-1x.webp`,
+        desktop2xWEBP:`${path}/${name}-2x.webp`,
+        alt: alt
+
+    };
+};
+const createProject = (
+    name: string,
+    url: string,
+    description : string,
+    img: string,
+    alt: string,
+    technologies: string[],
+) => {
+    return {
+        name,
+        description,
+        url,
+        image: createImage(img, alt),
+        technologies,
+    };
+};
+
+const categories = [
+    {
+        type: "E-Commerce",
+        details: [
+            createProject(
+                "Librairie Experience",
+                "https://librairie-experience.com/",
+                "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+                "lib",
+                "thumbnail librairie experience",
+                ["Gatsby", "Sanity"],
+            ),
+/*
+            createProject(
+                "Santa Muerte",
+                "https://librairieExperience",
+                "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+                "",
+                "",
+                ["Gatsby", "ThreeJS", "Sanity"],
+            ),
+*/
+            createProject("Stodac", "https://stodac.fr/",
+            "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+
+                 "sto", "thumbnail stodac", [
+                "Gatsby",
+                "Sanity",
+            ]),
+            createProject(
+                "Les Belles Quilles",
+                "https://lesbellesquilles.com/",
+                "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+                "lbq",
+                "thumbnail les belles quilles",
+                ["Next"],
+            ),
+        ],
+    },
+    {
+        type: "SaaS",
+        details: [
+            createProject(
+                "Pluggd", "https://plug.gd/", 
+                "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+                "plug",
+                "thumbnail plug gd",
+                [
+                    "Astro",
+                    "React",
+                    "Convex",
+                ]
+            ),
+
+            // createProject(
+            //     "Amenagement des Espaces",
+            //     "",
+            //     "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+            //     "", 
+            //     "",
+            //     [
+            //         "Next",
+            //         "ThreeJS",
+            //         "Adonis",
+            //     ]
+            // ),
+        ],
+    },
+    {
+        type: "Show case",
+        details: [
+            createProject("SCC France", "https://france.scc.com",
+            "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+             "scc", "thumbnail SCC France", [
+                "Astro",
+                "React",
+                "Sanity",
+            ]),
+            createProject(
+                "Les suites de l'Île Barbe",
+                "https://ilebarbe.com/",
+                "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+                "ile",
+                "thumbnail les suites de l'ile barbe",
+                ["Gatsby", "Sanity"],
+            ),
+            createProject("Heliopolis", "https://heliopolis-studio.com/",
+            "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+            
+            "helio", "thumbnail heliopolis studio", [
+
+
+            "SvelteKit",
+            ]),
+            createProject("Tertia Via", "https://tertiavia.netlify.app/", 
+            "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+ 
+            "ttvia", "thumbnail tertiavia", [
+                "Astro",
+                "React",
+            ]),
+            createProject(
+                "Ameya Shelby’s Portfolio",
+                "https://ameyash-portfolio.netlify.app/projects/",
+                "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+                "asp",
+                "thumbnail Ameya Shelby's portfolio",
+                ["Astro", "ThreeJS", "Sanity"],
+            ),
+            createProject(
+                "SB Rénovation",
+                "https://sb-renovation.netlify.app/",
+                "Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd Lorem ipsum dolor sit amet lefidrgh . qizjdoiqzjdqzo diojd doqjd",
+                "sbr",
+                "thumbnail sb renovation (steve bockhorni)",
+                ["Astro", "VueJS", "Sanity"],
+            ),
+        ],
+    },
+];
+---
+
+<section class={Style.root  + " ev_work_progress_container"} id="w">
+
+    <div class={Style.fixed_container + " ev_work_progress_fixed"}>
+        <h1 data-appear-line-on-visible="true">
+        
+            <Splitter 
+                text={"Works"}
+            />
+            
+        
+        </h1>
+
+        <div class={Style.list}>
+            {
+                categories.map((projects) => {
+                    return <ul>
+                        <li>
+                            <h2 
+                                data-appear-line-on-visible="true"                
+                            >
+
+                                <Splitter 
+                                    text={projects.type}
+                                />
+                                
+                                
+                            </h2>
+
+                            <ul>
+                                {projects.details.map((project) => {
+                                    return <li>
+                                        <a href={project.url} target="_blank" class="ev_project_link">
+                                            <p
+                                                data-appear-line-on-visible="true"
+                                                
+                                                >
+                                                <Splitter 
+                                                    text={project.name}
+                                                />
+                                            </p>
+
+
+                                            <p 
+                                                data-appear-on-visible="true"
+                                            >
+                                                <Splitter
+                                                    text={project.technologies.join(" ")}
+                                                >
+                                            </p>
+                                        </a>
+                                    </li>
+                                })}
+                            </ul>
+                        </li>
+                    </ul>
+                })
+            }
+        </div>
+
+
+
+        <div class={Style.project_card + " projectCard"}>
+            {
+            categories.flatMap(c => {
+                return c.details.map((project) => {
+                    return <div class={Style.card+ " ev_work_project_card"}>
+                        <PictureAndDescription
+                            description={project.description}
+                            image={project.image}
+                        />
+                    </div>
+                    
+                })            
+            })
+        
+            }
+        </div>  
+    </div>
+</section>

@@ -1,0 +1,164 @@
+@import "./_variables.scss";
+
+/* usefuls mixins for fluid website */ 
+
+/// Hardware acceleration for smooth animation
+@mixin hardware($backface: true, $perspective: 1000) {
+    @if $backface {
+        backface-visibility: hidden;
+    }
+    perspective: $perspective;
+}
+@mixin grid-layout(){
+    @include grid(
+        map-get($layout-desktop, "column-number"),
+        calc-interpolation(map-get($breakpoints, "tablet"), map-get($layout-mobile, "column-spacing"), map-get($breakpoints, "desktop"), map-get($layout-desktop, "column-spacing")),
+        calc-interpolation(map-get($breakpoints, "tablet"), map-get($layout-mobile, "margin"), map-get($breakpoints, "desktop"), map-get($layout-desktop, "margin")),
+    );
+
+    @include mq("tablet", max){
+        @include grid(
+            map-get($layout-mobile, "column-number"),
+            map-get($layout-mobile, "column-spacing"),
+            map-get($layout-mobile, "margin")
+        )
+    }
+
+}
+/// Interpolation function
+@mixin interpolate($properties, $min-screen, $max-screen, $min-value, $max-value) {
+	& {
+		@each $property in $properties {
+			#{$property}: $min-value;
+		}
+
+		@media screen and (min-width: $min-screen) {
+			@each $property in $properties {
+				#{$property}: calc-interpolation($min-screen, $min-value, $max-screen, $max-value); 
+			}
+		}
+
+		@media screen and (min-width: $max-screen) {
+			@each $property in $properties {
+				#{$property}: $max-value;
+			}
+		}
+	}
+}
+// Requires the calc-interpolation function which can also be used independently
+@function calc-interpolation($min-screen, $min-value, $max-screen, $max-value) {
+	$a: calc(($max-value - $min-value) / ($max-screen - $min-screen));
+	$b: $min-value - $a * $min-screen; 
+
+	$sign: "+";
+	@if ($b < 0) {
+		$sign: "-";
+		$b: abs($b);
+	}
+	@return calc(#{$a*100}vw #{$sign} #{$b});
+}
+
+
+/// scalable elements (usually images / background images) that maintain a ratio 
+/*div {
+    @include responsive-ratio(16,9);
+} */
+@mixin responsive-ratio($x,$y, $pseudo: false) {
+    $padding: unquote( ( $y / $x ) * 100 + '%' );
+    @if $pseudo {
+        &:before {
+            @include pseudo($pos: relative);
+            width: 100%;
+            padding-top: $padding;
+        }
+    } @else {
+        padding-top: $padding;
+    }
+}
+
+/// Media queries
+@mixin mq($width, $type: min) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+        @if $type == max {
+            $width: $width - 1px;
+        }
+        @media only screen and (#{$type}-width: $width) {
+            @content;
+        }
+    }
+}
+
+/// grid
+@mixin grid($grid, $column-gap, $margin){
+    display: grid;
+    grid-template-columns: repeat($grid, 1fr);
+    column-gap: $column-gap;
+    padding-left: $margin;
+    padding-right: $margin;
+}
+
+/// Z-Index
+@function z($name) {
+    @if index($z-indexes, $name) {
+        @return (index($z-indexes, $name)) + 10;
+    } @else {
+        @warn 'There is no item "#{$name}" in this list; choose one of: #{$z-indexes}';
+        @return null;
+    }
+}
+
+@mixin visibility($value){
+    @if ($value == 'hide') {
+        display: none;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+    } @else {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+
+@mixin p(){
+    font-family: "Helvetica", sans-serif;
+    font-size : map-get($sizes, "desktop-p");
+    span{
+        column-gap: 0.25rem;
+
+      }
+}
+
+
+@mixin h2(){
+    font-family: "Helvetica Bold", sans-serif;
+    font-size : map-get($sizes, "desktop-h2");
+    span{
+        column-gap : 2px; // A Addapter
+      }
+}
+
+
+@mixin h1(){
+    font-family: "Helvetica Bold", sans-serif;
+    font-weight: bold;
+    span{
+        @include interpolate(
+            column-gap,
+            map-get($breakpoints, "tablet"),
+            map-get($breakpoints, "desktop"),
+            9px,
+            13px
+        );
+    }
+    @include interpolate(
+        font-size,
+        map-get($breakpoints, "tablet"),    
+        map-get($breakpoints, "desktop"),
+        map-get($sizes, "h1-mobile"),
+        map-get($sizes, "h1-desktop"),
+    );
+}

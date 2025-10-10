@@ -1,0 +1,65 @@
+@import "../../../assets/styles/_variables.scss";
+@import "../../../assets/styles/_mixins.scss";
+
+.EMI_Loader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 10000;
+    height: 100vh;
+    width: 100vw;
+    background-color: transparent;
+
+
+    &_texts{
+
+        p{
+            text-align: center;
+            @include selectFontStyle("body");
+
+            span{
+                justify-content: center;
+            }
+
+            .EMI_splitted_text .EMI_splitted_letter_mask .EMI_splitted_letter{
+                transform: translateY(0);
+
+            }
+
+            &:first-child{
+                // margin-bottom: 12px;
+            }
+        }
+    }
+    &_progress {
+        width : 67.7%;
+        //position: absolute;
+        //@include interpolate(
+        //    bottom,
+        //    map-get($breakpoints, "tablet"),
+        //    map-get($breakpoints, "desktop"),
+        //    40px,
+        //    136px,
+        //);
+
+
+
+        &_count{
+            display: block;
+            transition: 0.5s;
+            @include selectFontStyle("bigh1");
+            @include interpolate(
+                margin-bottom,
+                map-get($breakpoints, "tablet"),    
+                map-get($breakpoints, "desktop"),
+                16px,
+                32px
+            );
+
+        }
+    }
+}

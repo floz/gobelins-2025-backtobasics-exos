@@ -1,0 +1,46 @@
+// Create colors variables
+$colors:(
+  'foreground-primary': #ffffff,
+  'background-primary': #07080A,
+  "background-secondary" : #0D0E13
+);
+
+
+
+// Create breakpoints variables
+$breakpoints:(
+  "phone-small": 320px,
+  "tablet": 768px,
+  "tablet-wide": 1024px,
+  "desktop": 1728px,
+  "desktop-wide": 1920px,
+);
+
+// Create fonts sizes variables
+$sizes:(
+  "h1-desktop": 96px,
+  "h2-desktop": 24px,
+  "p-desktop": 16px,
+  
+  "h1-mobile": 48px,
+  "h2-mobile": 24px,
+  "p-mobile": 16px,
+);
+
+
+$layout-desktop: (
+  "margin": 128px,
+  "column-spacing": 20px,
+  "column-number": 12,
+);
+$layout-mobile: (
+  "margin": 24px,
+  "column-spacing": 4px,
+  "column-number": 8,
+);
+
+$easing : (
+  "o1" : cubic-bezier(0,.75,.25,1),
+  "io1" : cubic-bezier(0.85, 0, 0.15, 1),
+  "o2" : cubic-bezier(0, 0.85, 0.15, 1),
+)

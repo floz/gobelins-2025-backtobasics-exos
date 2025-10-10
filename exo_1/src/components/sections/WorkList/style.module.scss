@@ -1,0 +1,98 @@
+@import "../../../assets/styles/_variables.scss";
+@import "../../../assets/styles/_mixins.scss";
+
+
+.root {
+    position: relative;
+    height: 300vh;
+    @include mq("tablet", max){
+    height: fit-content;
+
+    }
+
+    .fixed_container{
+        position: sticky;
+        top: 0;
+        left: 0;
+        @include interpolate(
+            top,
+            map-get($breakpoints, "tablet"),
+            map-get($breakpoints, "desktop"),
+            -0px,
+            -110px
+        );
+        @include interpolate(
+            padding-top,
+            map-get($breakpoints, "tablet"),
+            map-get($breakpoints, "desktop"),
+            128px,
+            220px
+        );
+        @include interpolate(
+            padding-bottom,
+            map-get($breakpoints, "tablet"),
+            map-get($breakpoints, "desktop"),
+            128px,
+            220px
+        );
+
+
+        @include grid-layout();
+        grid-template-rows: auto;
+
+        h1 {
+            grid-column: 8/13;
+            padding-bottom: 64px;
+            @include mq("tablet", max){
+                grid-column: 1/9;
+    
+            }
+        }
+    
+        .list {
+            grid-column: 9/13;
+            @include mq("tablet", max){
+                grid-column: 1/9;
+    
+            }
+            ul {
+                &:not(ul:last-child) {
+    
+                    padding-bottom: 64px;
+                }
+    
+    
+                h2 {
+                    padding-bottom: 40px;
+                    height: fit-content;
+                }
+    
+    
+    
+    
+                a {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px 0px;
+                }
+            }
+    
+    
+        }
+    
+        .project_card {
+            @include mq("tablet", max){
+                display: none;
+    
+            }
+            grid-column: 1/4;
+            position: relative;
+    
+            .card {
+                position: absolute;
+                bottom: 0;
+                transform: translateY(-100%);
+            }
+        }
+    }
+}

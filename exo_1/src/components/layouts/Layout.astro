@@ -1,0 +1,32 @@
+---
+import "../../assets/styles/root.scss";
+import Head from "../utils/Head.astro";
+import Header from "../organisms/Header/index.astro";
+import Footer from "../organisms/Footer/Index.astro";
+/**
+ *  Project Layout
+ */
+import Loader from "../molecules/Loader/index.astro";
+
+const {
+    metaProps = {
+        title: "Émilien VIVIER",
+        description:
+            "Passionate about designing and programming digital experiences, I collaborate with various brands to enhance their digital presence by developing experiences, software and SaaS solutions.",
+    },
+} = Astro.props;
+---
+
+<html lang="en">
+    <Head metaProps={metaProps} />
+
+    <body>
+        <canvas></canvas>
+        <main><slot /></main>
+    </body><script>
+        import App from "../../assets/scripts/app";
+        window.onload = () => {
+            new App();
+        };
+    </script>
+</html>

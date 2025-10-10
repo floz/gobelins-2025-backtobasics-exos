@@ -1,0 +1,64 @@
+---
+import Splitter from "../../utils/Splitter/index.astro";
+import Style from "./style.module.scss";
+/**
+ * Footer
+ */
+
+const lists = [
+  {
+    links: [
+      {
+        text: "LinkedIn",
+        to: "https://fr.linkedin.com/in/emilien-vivier-036266257",
+      },
+      {
+        text: "X / Twitter",
+        to: "https://x.com/Neliiem",
+      },
+      {
+        text: "Instagram",
+        to: "https://www.instagram.com/emilien_vivier/",
+      },
+      {
+        text: "Behance",
+        to: "https://www.behance.net/vivieremilien",
+      },
+    ],
+  },
+  {
+    links: [
+      {
+        text: "0781938902",
+        to: "tel:0781938902",
+      },
+      {
+        text: "emilien.vivier@icloud.com",
+        to: "mailto:emilien.vivier@icloud.com",
+      },
+    ],
+  },
+];
+---
+
+<footer class={Style.root}>
+  <p data-appear-line-on-visible="true">
+    <Splitter text="Émilien VIVIER" />
+  </p>
+
+  {
+    lists.map((list) => {
+      return (
+        <div>
+          {list.links.map((link) => {
+            return (
+              <a href={link.to} data-appear-line-on-visible="true" target="_blank">
+                <Splitter text={link.text} />
+              </a>
+            );
+          })}
+        </div>
+      );
+    })
+  }
+</footer>

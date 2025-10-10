@@ -1,0 +1,48 @@
+---
+import Style from "./style.module.scss"
+import Splitter from "../../utils/Splitter/index.astro"
+/**
+ * 
+ * Button component has 4 variants
+ *      1. Navbar Button
+ *      2. Filter
+ *      3. Selection Opening button
+ *      4. INTERNAL NAV LINK
+ * 
+ * 
+ * 
+ */
+
+const {
+
+    type="", 
+    to="",
+    text="",
+
+} = Astro.props
+
+
+---
+
+{
+    type==="nav-link" && (
+        <a href={to} class={Style.nav_link} data-appear-on-visible="true" data-internale="true">
+            <Splitter
+                text={text}
+            />
+        </a>
+    )
+}
+
+{
+    type==="nav-link-section" && (
+        <a href={to} class={Style.nav_link_section} data-appear-on-visible="true" data-internale="true">
+            <Splitter
+                text={text}
+            />
+        </a>
+    )
+}
+
+
+

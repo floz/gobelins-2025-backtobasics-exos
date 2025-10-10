@@ -1,0 +1,16 @@
+// Quick reset styles
+body, main, section, ul, li,ol, h1, h2, h3, h4, h5, h6, p, input, button, a{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+}
+*{
+    box-sizing: border-box;
+}
+img, picture{
+    font-size: 0px;
+}

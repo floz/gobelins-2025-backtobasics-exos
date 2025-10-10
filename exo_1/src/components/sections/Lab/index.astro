@@ -1,0 +1,92 @@
+---
+import Splitter from "../../utils/Splitter/index.astro";
+import Style from "./style.module.scss";
+import PictureAndDescription from "../../molecules/PictureAndDescription/index.astro"
+const createImage = (name: string, alt: string) => {
+    return {};
+};
+const createEffect = (
+    name: string,
+    url: string,
+    urlName: string,
+) => {
+    return {
+        name,
+        url,
+        urlName,
+    };
+};
+
+const effects = [
+
+            createEffect(
+                "Midwam Effect",
+                "https://www.midwam.com/en/",
+                "Inspiration",
+            ),
+            createEffect(
+                "Reflective Water",
+                "/",
+                "Application non available"
+            ),
+            createEffect(
+                "SpeedLight",
+                "https://ameyash-portfolio.netlify.app/projects",
+                "Application"
+            ),
+         
+ 
+];
+---
+
+<section class={Style.root  + " ev_lab_progress_container"} id="l">
+
+    <div class={Style.fixed_container + " ev_lab_progress_fixed"}>
+        <h1 data-appear-line-on-visible="true">
+        
+            <Splitter 
+                text={"The lab"}
+            />
+            
+        
+        </h1>
+
+        <div class={Style.list}>
+            <ul>
+            {
+                effects.map((effect) => {
+                    return <li>
+                            <a href={effect.url} target="_blank">
+                                <p
+                                    data-appear-line-on-visible="true"
+                                    class="ev_lab_link"
+                                    >
+                                    <Splitter 
+                                        text={effect.name}
+                                    />
+                                </p>
+
+
+                                <p 
+                                    data-appear-on-visible="true"
+                                >
+                                    <Splitter
+                                        text={effect.urlName}
+                                    >
+                                </p>
+                           </a>
+                        </li>
+
+                })
+            }
+            </ul>
+
+            <p data-appear-line-on-visible="true">
+                <Splitter
+                    text={"I love to challenge myself by recreating breath cutting WebGL effect from amazing developpers around the world. Here’s a selection of them."}     
+                />
+            </p>
+        </div>
+
+
+</section>

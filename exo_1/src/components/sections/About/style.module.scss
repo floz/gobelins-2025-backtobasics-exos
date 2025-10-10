@@ -1,0 +1,35 @@
+@import "../../../assets/styles/_variables.scss";
+@import "../../../assets/styles/_mixins.scss";
+
+
+.root {
+    @include interpolate(
+        padding-top,
+        map-get($breakpoints, "tablet"),
+        map-get($breakpoints, "desktop"),
+        128px,
+        220px
+    );
+
+    @include interpolate(
+        padding-bottom,
+        map-get($breakpoints, "tablet"),
+        map-get($breakpoints, "desktop"),
+        128px,
+        220px
+    );
+
+    @include grid-layout();
+
+    h1{
+        padding-bottom: 64px;
+    }
+    p, h1{
+
+        grid-column: 8/13;
+        @include mq("tablet", max){
+            grid-column: 1/9;
+
+        }
+    }
+}
