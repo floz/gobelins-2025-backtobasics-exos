@@ -24,10 +24,10 @@ export default class Grid {
     private app: App
     private GUI: Gui
     private ctx: CanvasRenderingContext2D
-    private bubblesCount = 100
+    private bubblesCount = 1
     private grid: Circle[] = []
     private isReady = false
-    private radius = 10
+    private radius = 300
     constructor(app: App) {
         this.app = app
         this.ctx = this.app.ctx
@@ -38,17 +38,12 @@ export default class Grid {
     createGrid() {
 
         for (let i = 0; i < this.bubblesCount; i++) {
-            const dirX = Math.random() - 0.5
-            const dirY = Math.random() - 0.5
-            const velocity = Math.random()
+
             this.grid.push(new Circle(
                 this.app,
-                Math.random() * this.app.screenWidth,
-                Math.random() * this.app.screenHeight,
+                this.app.screenWidth/2 - this.radius/2,
+                this.app.screenHeight/2 - this.radius/2,
                 this.radius,
-                dirX,
-                dirY,
-                velocity,
             ))
 
         }

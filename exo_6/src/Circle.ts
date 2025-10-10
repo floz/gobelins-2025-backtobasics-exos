@@ -17,10 +17,6 @@ export default class Circle {
     private age = 10
 
 
-    private dirX: number
-    private dirY: number
-    public velocity: number
-
 
     private mouseX: number | null = null
     private mouseY: number | null = null
@@ -31,9 +27,7 @@ export default class Circle {
         x: number,
         y: number,
         size: number,
-        dirX: number,
-        dirY: number,
-        velocity: number,
+
     ) {
         this.app = app
         this.ctx = this.app.ctx
@@ -45,9 +39,6 @@ export default class Circle {
 
         this.radius = size
 
-        this.dirX = dirX
-        this.dirY = dirY
-        this.velocity = velocity
     }
 
     update(delta: number = 0) {
@@ -56,25 +47,6 @@ export default class Circle {
          * First version
          */
 
-
-        // Animate
-        this.x += this.dirX * this.velocity
-        this.y += this.dirY * this.velocity
-
-        // Bounce
-        /**
-         * TODO : 
-         * Revert angle + follow a trigonometric approach.
-         */
-
-        if (
-            this.x >= this.app.screenWidth
-            || this.x <= 0
-            || this.y <= 0
-            || this.y >= this.app.screenHeight
-        ) {
-            this.velocity *= -1
-        }
 
 
 
@@ -92,7 +64,6 @@ export default class Circle {
         this.ctx.beginPath()
 
 
-        this.ctx.fillStyle = "#888888"
 
         //start drawPoint on the top corner left of the cell
         this.ctx.translate(
@@ -104,9 +75,31 @@ export default class Circle {
             this.radius / 2,
             this.radius / 2
         )
-        this.ctx.arc(0, 0, this.radius, 0, Math.PI * 2)
-        this.ctx.fill()
 
+
+
+        this.ctx.strokeStyle = "#888888"
+        this.ctx.lineWidth = 1
+
+
+        for (let angle = 0; angle < 2 * Math.PI; angle += 0.1) {
+            let x = Math.cos(angle) * this.radius;
+            let y = Math.sin(angle) * this.radius;
+
+            let xto = Math.cos(angle + 0.1) * this.radius;
+            let yto = Math.sin(angle + 0.1) * this.radius;
+
+            this.ctx.moveTo(
+                x, y
+            );
+            this.ctx.lineTo(
+                xto, yto
+            );
+        }
+
+
+
+        this.ctx.stroke();
         this.ctx.closePath()
         this.ctx.restore()
 
