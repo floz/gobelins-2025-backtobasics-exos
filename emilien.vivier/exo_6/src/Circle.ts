@@ -3,6 +3,15 @@ import { SimplexNoise } from "./noise"
 const lerp = (t: number, i: number, e: number) => t * (1 - e) + i * e
 const getRandomBetween = (min: number, max: number) => Math.random() * (max - min) + min
 const step = 0.01
+
+const colors = [
+    '#C0C2C8',
+    '#24459D',
+    '#E12A26',
+    '#FACE00',
+]
+
+
 export default class Circle {
 
     private app: App
@@ -17,12 +26,12 @@ export default class Circle {
     private age = 10
 
     private amplitude: number
-
+    private color: string
     private mouseX: number | null = null
     private mouseY: number | null = null
     private noise: SimplexNoise
     private noiseFactor: number
-    private time: { elapsedTime: number, deltaTime: number } = { elapsedTime: 0, deltaTime: 0 } 
+    private time: { elapsedTime: number, deltaTime: number } = { elapsedTime: 0, deltaTime: 0 }
     constructor(
         app: App,
         x: number,
@@ -30,6 +39,7 @@ export default class Circle {
         size: number,
         amplitude: number,
         noiseFactor: number,
+        isRandomColor: boolean
     ) {
         this.app = app
         this.ctx = this.app.ctx
@@ -43,6 +53,10 @@ export default class Circle {
         this.noise = new SimplexNoise()
         this.amplitude = amplitude
         this.noiseFactor = noiseFactor
+
+
+
+        this.color = isRandomColor ? colors[Math.floor(Math.random() * colors.length)] : "#888888"
     }
 
     update(time: { elapsedTime: number, deltaTime: number }) {
@@ -79,7 +93,8 @@ export default class Circle {
 
 
 
-        this.ctx.strokeStyle = "#888888"
+
+        this.ctx.strokeStyle = this.color
         this.ctx.lineWidth = 1
 
 

@@ -1,22 +1,8 @@
 import App from "./App.ts"
 import Gui from "./Gui.ts"
 import Circle from "./Circle.ts"
+import { TweenMax } from "gsap"
 const getRandomBetween = (min: number, max: number) => Math.random() * (max - min) + min
-
-const colors = {
-    'black': '#25211F',
-    'grey': '#C0C2C8',
-    'blue': '#24459D',
-    'red': '#E12A26',
-    'yellow': '#FACE00',
-}
-const colorTokens = [
-    'black',
-    'grey',
-    'blue',
-    'red',
-    'yellow',
-]
 
 
 export default class Grid {
@@ -33,6 +19,7 @@ export default class Grid {
     private elapsedTime = 0
     private yCount = 0
     private xCount = 0
+    private isRandomColor = true
 
     constructor(app: App) {
         this.app = app
@@ -44,7 +31,7 @@ export default class Grid {
     createGrid() {
         this.grid = []
 
-        if (this.xCount <= 1) {
+        if (this.xCount < 1) {
             for (let x = 0; x < this.bubblesCount; x++) {
 
                 this.grid.push(new Circle(
@@ -54,6 +41,7 @@ export default class Grid {
                     this.radius,
                     this.amplitude,
                     this.noiseFactor,
+                    this.isRandomColor
                 ))
 
             }
@@ -65,11 +53,12 @@ export default class Grid {
 
                     this.grid.push(new Circle(
                         this.app,
-                        x <= 1 ? this.app.screenWidth / 2 - this.radius / 2 : x / this.xCount * this.app.screenWidth - this.radius / 2,
+                        x <= 1 ? this.app.screenWidth / 2 - this.radius / 2 + (Math.random() - 0.5) * 400 : x / this.xCount * this.app.screenWidth - this.radius / 2 + (Math.random() - 0.5) * 400,
                         y <= 1 ? this.app.screenHeight / 2 - this.radius / 2 : y / this.yCount * this.app.screenHeight - this.radius / 2,
                         this.radius,
                         this.amplitude,
                         this.noiseFactor,
+                        this.isRandomColor
                     ))
 
                 }
@@ -88,7 +77,8 @@ export default class Grid {
             radius: this.radius,
             noiseFactor: this.noiseFactor,
             yCount: this.yCount,
-            xCount: this.xCount
+            xCount: this.xCount,
+            isRandomColor: this.isRandomColor
         }
         this.GUI.GUI.add(values, 'bubbleCount', 0, 100, 1)
             .onChange((e: any) => {
@@ -114,19 +104,35 @@ export default class Grid {
                 this.createGrid()
             })
 
-        this.GUI.GUI.add(values, 'yCount', 1, 100, 1)
+        this.GUI.GUI.add(values, 'yCount', 0, 1000, 1)
             .onChange((e: any) => {
                 this.yCount = e
+                this.xCount = Math.max(1, this.xCount)
+                if (e === 0) {
+                    this.xCount = 0
+                    this.bubblesCount = 1
+
+                }
                 this.createGrid()
             })
 
-        this.GUI.GUI.add(values, 'xCount', 1, 3, 1)
+        this.GUI.GUI.add(values, 'xCount', 0, 3, 1)
             .onChange((e: any) => {
                 this.xCount = e
+                this.yCount = Math.max(1, this.yCount)
+                if (e === 0) {
+                    this.yCount = 0
+                    this.bubblesCount = 1
+                }
                 this.createGrid()
             })
 
 
+        this.GUI.GUI.add(values, 'isRandomColor', 1, 3, 1)
+            .onChange((e: any) => {
+                this.isRandomColor = e
+                this.createGrid()
+            })
     }
 
     update(time: { elapsedTime: number, deltaTime: number }) {
