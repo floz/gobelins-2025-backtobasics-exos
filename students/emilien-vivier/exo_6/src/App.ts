@@ -16,7 +16,7 @@ export default class App {
     private start = 0
     private bgColor = "#000000"
     private isAnimated = true
-
+    private elapsedTime = 0
 
     constructor() {
         this.canvas = document.querySelector('canvas') as HTMLCanvasElement;
@@ -76,10 +76,9 @@ export default class App {
     }
 
     update() {
-
-        this.grid.update({ elapsedTime: this.isAnimated ? this.lastUpdate : 0, deltaTime: Date.now() - this.lastUpdate })
+        this.elapsedTime = this.isAnimated ? this.lastUpdate : this.elapsedTime
+        this.grid.update({ elapsedTime: this.elapsedTime, deltaTime: Date.now() - this.lastUpdate })
         this.lastUpdate = Date.now()
-        // console.log(elapsedTime)
         window.requestAnimationFrame(() => {
             this.update();
             this.draw();
