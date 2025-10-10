@@ -25,7 +25,7 @@ export default class Grid {
     private app: App
     private GUI: Gui
     private ctx: CanvasRenderingContext2D
-    private bubblesCount = 2
+    private bubblesCount = 100
     private grid: Circle[] = []
     private isReady = false
     private radius = 10
