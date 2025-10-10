@@ -2,7 +2,6 @@ import type { guiConfig } from "../main";
 import CellPoolProxy from "../proxies/CellPoolProxy";
 import type Cell from "./Cell";
 
-
 export interface LinkerConfig {
     linkerDistance: number;
     linkerColor: string;
