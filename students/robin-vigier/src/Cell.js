@@ -1,3 +1,6 @@
+import { gsap } from "gsap";
+
+
 export default class Cell {
 
     constructor(size, color = '#2650e8ff') {
@@ -8,6 +11,13 @@ export default class Cell {
 
     setOther(cells) {
         this._otherCells = cells.filter((cell) => cell !== this);
+    }
+
+    getAleatoryDirection = (canvasWidth, canvasHeight) => {
+        const x = Math.random() * (canvasWidth);
+        const y = Math.random() * (canvasHeight);
+
+        return [x, y];
     }
 
     setPosition(x, y) {
@@ -47,6 +57,24 @@ export default class Cell {
         ctx.closePath();
 
         this.checkAround(ctx, maxDistance);
+    }
+
+    animateDirection = (canvasWidth, canvasHeight) => {
+        // const isX = Math.random() < .5
+
+        const duration = 5 + 2 * (Math.random() * 8)
+
+        const [dx, dy] = this.getAleatoryDirection(canvasWidth, canvasHeight);
+
+
+        gsap.to(this, {
+            _x: dx,
+            _y: dy,
+            duration,
+            ease: "power1.out",
+            onComplete: this.animateDirection,
+            onCompleteParams: [canvasWidth, canvasHeight]
+        })
     }
 
 }

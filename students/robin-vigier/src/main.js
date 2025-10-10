@@ -34,6 +34,8 @@ function genCells() {
 
     const [x, y] = getAleatoryPosition();
     cell.setPosition(x, y);
+    
+    cell.animateDirection(canvas.width, canvas.height);
 
     cells.push(cell);
 
@@ -66,7 +68,7 @@ window.requestAnimationFrame(tick);
 
 const gui = new GUI();
 gui.add(data, 'cellSize', 5, 50, 1).name("Size");
-gui.add(data, 'cellNumber', 10, 300, 1).name("Entity").onChange(genCells);
+gui.add(data, 'cellNumber', 10, 500, 1).name("Entity").onChange(genCells);
 gui.add(data, 'maxDistance', 10, 500, 1).name("Distance").onChange(() => {
   cells.forEach(cell => {
     cell.setOther(cells);
