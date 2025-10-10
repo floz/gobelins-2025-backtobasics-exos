@@ -1,7 +1,6 @@
 import App from "./App"
 
 const lerp = (t: number, i: number, e: number) => t * (1 - e) + i * e
-const getRandomBetween = (min: number, max: number) => Math.random() * (max - min) + min
 
 export default class Circle {
 
@@ -20,11 +19,17 @@ export default class Circle {
     private dirX: number
     private dirY: number
     public velocity: number
-
+    private isMouseMoving = false
 
     private mouseX: number | null = null
     private mouseY: number | null = null
 
+    private displacementX: number = 0
+    private displacementY: number = 0
+    private mouseRadius = 100
+
+    private lastMouseX = -1
+    private lastMouseY = -1
 
     constructor(
         app: App,
@@ -53,19 +58,11 @@ export default class Circle {
     update(delta: number = 0) {
 
         /**
-         * First version
-         */
-
-
-        // Animate
-        this.x += this.dirX * this.velocity
-        this.y += this.dirY * this.velocity
-
-        // Bounce
-        /**
          * TODO : 
          * Revert angle + follow a trigonometric approach.
          */
+
+        this.isMouseMoving = this.mouseX !== this.lastMouseX && this.mouseY !== this.lastMouseY
 
         if (
             this.x >= this.app.screenWidth
@@ -77,6 +74,30 @@ export default class Circle {
         }
 
 
+        if (!this.mouseX || !this.mouseY || !this.isMouseMoving) {
+
+            this.x += this.dirX * this.velocity
+            this.y += this.dirY * this.velocity
+
+            this.displacementX = this.x
+            this.displacementY = this.y
+            return
+        }
+
+
+        const dx = this.mouseX - this.x
+        const dy = this.mouseY - this.y
+
+
+        const oppositeAngle = Math.atan2(dy, dx)
+        this.displacementX = this.ox + Math.cos(oppositeAngle) * this.mouseRadius
+        this.displacementY = this.oy + Math.sin(oppositeAngle) * this.mouseRadius
+
+        this.x = lerp(this.x, this.displacementX, 0.25)
+        this.y = lerp(this.y, this.displacementY, 0.25)
+
+        this.lastMouseX = this.mouseX
+        this.lastMouseY = this.mouseY
 
     }
     onMouseMove(e: any) {
