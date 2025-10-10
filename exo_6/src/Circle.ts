@@ -1,8 +1,8 @@
 import App from "./App"
-
+import { SimplexNoise } from "./noise"
 const lerp = (t: number, i: number, e: number) => t * (1 - e) + i * e
 const getRandomBetween = (min: number, max: number) => Math.random() * (max - min) + min
-
+const step = 0.01
 export default class Circle {
 
     private app: App
@@ -16,18 +16,20 @@ export default class Circle {
     private radius: number
     private age = 10
 
-
+    private amplitude: number
 
     private mouseX: number | null = null
     private mouseY: number | null = null
-
-
+    private noise: SimplexNoise
+    private noiseFactor: number
+    private time: { elapsedTime: number, deltaTime: number } = { elapsedTime: 0, deltaTime: 0 } 
     constructor(
         app: App,
         x: number,
         y: number,
         size: number,
-
+        amplitude: number,
+        noiseFactor: number,
     ) {
         this.app = app
         this.ctx = this.app.ctx
@@ -38,18 +40,17 @@ export default class Circle {
         this.oy = y
 
         this.radius = size
-
+        this.noise = new SimplexNoise()
+        this.amplitude = amplitude
+        this.noiseFactor = noiseFactor
     }
 
-    update(delta: number = 0) {
+    update(time: { elapsedTime: number, deltaTime: number }) {
 
         /**
          * First version
          */
-
-
-
-
+        this.time = time
     }
     onMouseMove(e: any) {
 
@@ -82,18 +83,24 @@ export default class Circle {
         this.ctx.lineWidth = 1
 
 
-        for (let angle = 0; angle < 2 * Math.PI; angle += 0.1) {
+        for (let angle = 0; angle < 2 * Math.PI + step; angle += step) {
+
+
             let x = Math.cos(angle) * this.radius;
             let y = Math.sin(angle) * this.radius;
 
-            let xto = Math.cos(angle + 0.1) * this.radius;
-            let yto = Math.sin(angle + 0.1) * this.radius;
+            const noisePosFrom = this.noise.noise2D(x * this.noiseFactor + this.time.elapsedTime / 1000, y * this.noiseFactor + this.time.elapsedTime / 1000) * Math.PI * 2
 
-            this.ctx.moveTo(
-                x, y
-            );
+
+            const noiseRadius = this.radius + noisePosFrom * this.amplitude
+
+            x = Math.cos(angle) * noiseRadius;
+            y = Math.sin(angle) * noiseRadius;
+
+
             this.ctx.lineTo(
-                xto, yto
+                x,
+                y
             );
         }
 

@@ -63,9 +63,9 @@ export default class App {
     }
 
     update() {
-        const elapsedTime = Date.now() - this.lastUpdate
+
+        this.grid.update({ elapsedTime: this.lastUpdate, deltaTime: Date.now() - this.lastUpdate })
         this.lastUpdate = Date.now()
-        this.grid.update(elapsedTime)
         // console.log(elapsedTime)
         window.requestAnimationFrame(() => {
             this.update();
