@@ -22,7 +22,7 @@ const guiConfig = {
   linkerDistance: 250,
   linkerColor: '#FF0000',
   linkerWidth: 1,
-  linkerFillTriangles: true,
+  linkerFillTriangles: false,
 }
 //
 //#endregion

@@ -88,11 +88,11 @@ export default class Linker {
                     const d_jk = Math.hypot(this._cells[k].position.x - this._cells[j].position.x, this._cells[k].position.y - this._cells[j].position.y);
 
                     if (d_ij < this._distanceForLink && d_ik < this._distanceForLink && d_jk < this._distanceForLink) {
-                        const opacity1 = Math.round((1 - d_ij / this._distanceForLink) * 255);
-                        const opacity2 = Math.round((1 - d_ik / this._distanceForLink) * 255);
-                        const opacity3 = Math.round((1 - d_jk / this._distanceForLink) * 255);
-                        const opacity = Math.round(((opacity1 + opacity2 + opacity3) / 3)).toString(16).padStart(2, '0');
-                        this._context.fillStyle = this._color + opacity;
+                        const opacityIJ = Math.round((1 - d_ij / this._distanceForLink) * 255);
+                        const opacityIK = Math.round((1 - d_ik / this._distanceForLink) * 255);
+                        const opacityJK = Math.round((1 - d_jk / this._distanceForLink) * 255);
+                        const opacityAverage = Math.round(((opacityIJ + opacityIK + opacityJK) / 3)).toString(16).padStart(2, '0');
+                        this._context.fillStyle = this._color + opacityAverage;
                         this._context.lineWidth = this._width;
                         this._context.beginPath();
                         this._context.moveTo(this._cells[i].position.x, this._cells[i].position.y);
