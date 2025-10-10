@@ -7,36 +7,47 @@ export default class Circle {
 
     private app: App
     private ctx: CanvasRenderingContext2D
+
     private x: number
     private y: number
+    private ox: number
+    private oy: number
+
     private radius: number
     private age = 10
 
 
-    private displacementX: number // Required pos on mouseMove
-    private displacementY: number // Required pos on mouseMove
+    private dirX: number
+    private dirY: number
+    private velocity: number
 
-    private ox: number
-    private oy: number
-    private ease: number
 
     private mouseX: number | null = null
     private mouseY: number | null = null
 
-    private mouseRadius = 100
 
-    constructor(app: App, x: number, y: number, size: number, ease: number) {
+    constructor(
+        app: App,
+        x: number,
+        y: number,
+        size: number,
+        dirX: number,
+        dirY: number,
+        velocity: number,
+    ) {
         this.app = app
         this.ctx = this.app.ctx
+
         this.x = x
         this.y = y
         this.ox = x
         this.oy = y
-        this.radius = size
-        this.ease = ease
 
-        this.displacementX = this.x
-        this.displacementY = this.y
+        this.radius = size
+
+        this.dirX = dirX
+        this.dirY = dirY
+        this.velocity = velocity
     }
 
     update(delta: number = 0) {
@@ -45,33 +56,7 @@ export default class Circle {
          * First version
          */
 
-        if (!this.mouseX || !this.mouseY) return
-        //Ou a charques frames je veux qu'il se déplace vers le point de la souris 
-        //Ou a chaque frames je veux qu'il se déplace vers la souris 
 
-        // V2
-
-        // 1 Distance avec la souris 
-        const dx = this.mouseX - this.x 
-        const dy = this.mouseY - this.y 
-        const dist = Math.sqrt(dx*dx + dy*dy)
-        
-        // 2 Angle avec la souris 
-        const alpha = Math.atan2(dy, dx)
-
-
-        // 3 New X new Y
-        const newX = this.x + Math.cos(alpha) * dist // Position + displacement
-        const newY = this.y + Math.sin(alpha) * dist // Position + displacement
-
-
-        this.x += (newX - this.x) * this.ease
-        this.y += (newY - this.y) * this.ease
-
-
-        // V1
-        // this.x += (this.mouseX - this.x) * this.ease
-        // this.y += (this.mouseY - this.y) * this.ease
 
 
     }
