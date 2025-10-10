@@ -15,6 +15,7 @@ export default class App {
     private lastUpdate = Date.now()
     private start = 0
     private bgColor = "#000000"
+    private isAnimated = true
 
 
     constructor() {
@@ -34,7 +35,7 @@ export default class App {
         this.handleScreenSize = this.handleScreenSize.bind(this)
         window.addEventListener('resize', this.handleScreenSize)
 
-
+        this.createTweakPanel()
         /**
          * Animate
         */
@@ -43,6 +44,18 @@ export default class App {
         window.requestAnimationFrame(() => { this.update() })
     }
 
+    createTweakPanel() {
+        const values = {
+            isAnimated: this.isAnimated,
+        }
+
+
+        this.gui.GUI.add(values, 'isAnimated', 1, 3, 1)
+            .onChange((e: any) => {
+                this.isAnimated = e
+                // this.createGrid()
+            })
+    }
     onReady() {
         this.grid.createGrid()
     }
@@ -64,7 +77,7 @@ export default class App {
 
     update() {
 
-        this.grid.update({ elapsedTime: this.lastUpdate, deltaTime: Date.now() - this.lastUpdate })
+        this.grid.update({ elapsedTime: this.isAnimated ? this.lastUpdate : 0, deltaTime: Date.now() - this.lastUpdate })
         this.lastUpdate = Date.now()
         // console.log(elapsedTime)
         window.requestAnimationFrame(() => {

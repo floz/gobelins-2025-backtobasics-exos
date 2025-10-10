@@ -33,12 +33,12 @@ export default class Grid {
 
         if (this.xCount < 1) {
             for (let x = 0; x < this.bubblesCount; x++) {
-
+                const customRadius = getRandomBetween(this.radius - 100, this.radius)
                 this.grid.push(new Circle(
                     this.app,
                     this.app.screenWidth / 2 - this.radius / 2,
                     this.app.screenHeight / 2 - this.radius / 2,
-                    this.radius,
+                    customRadius,
                     this.amplitude,
                     this.noiseFactor,
                     this.isRandomColor
@@ -48,14 +48,13 @@ export default class Grid {
 
         } else {
             for (let x = 0; x < this.xCount; x++) {
-
                 for (let y = 0; y < this.yCount; y++) {
-
+                    const customRadius = getRandomBetween(this.radius - 100, this.radius)
                     this.grid.push(new Circle(
                         this.app,
-                        x <= 1 ? this.app.screenWidth / 2 - this.radius / 2 + (Math.random() - 0.5) * 400 : x / this.xCount * this.app.screenWidth - this.radius / 2 + (Math.random() - 0.5) * 400,
-                        y <= 1 ? this.app.screenHeight / 2 - this.radius / 2 : y / this.yCount * this.app.screenHeight - this.radius / 2,
-                        this.radius,
+                        (x + 1) / (this.xCount + 1) * (this.app.screenWidth) - this.radius / 2 + (Math.random() - 0.5) * 100,
+                        (y + 1) / (this.yCount + 1) * (this.app.screenHeight) - this.radius / 2 + (Math.random() - 0.5) * 100,
+                        customRadius,
                         this.amplitude,
                         this.noiseFactor,
                         this.isRandomColor
@@ -115,7 +114,7 @@ export default class Grid {
                 this.createGrid()
             })
 
-        this.GUI.GUI.add(values, 'xCount', 0, 3, 1)
+        this.GUI.GUI.add(values, 'xCount', 0, 1000, 1)
             .onChange((e: any) => {
                 this.xCount = e
                 this.yCount = Math.max(1, this.yCount)
