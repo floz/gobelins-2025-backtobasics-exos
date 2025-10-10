@@ -19,7 +19,7 @@ export default class Circle {
 
     private dirX: number
     private dirY: number
-    private velocity: number
+    public velocity: number
 
 
     private mouseX: number | null = null

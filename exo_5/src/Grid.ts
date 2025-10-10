@@ -25,7 +25,7 @@ export default class Grid {
     private app: App
     private GUI: Gui
     private ctx: CanvasRenderingContext2D
-    private bubblesCount = 100
+    private bubblesCount = 2
     private grid: Circle[] = []
     private isReady = false
     private radius = 10
@@ -78,30 +78,41 @@ export default class Grid {
         /**
          * UPGRADE TODO : 
          * Lines are drawn twice : One for the frist particle and one for the second
-         * Maybe parcourir only the half of the array
+         * Maybe browse only the half of the array
          */
         for (let i = 0; i < this.bubblesCount; i++) {
             this.grid[i].update(elapsedTime)
 
             for (let j = 0; j < this.bubblesCount; j++) {
 
-                const dx = this.grid[i].x - this.grid[j].x
-                const dy = this.grid[i].y - this.grid[j].y
+                if (i !== j) {
 
-                const dist = Math.sqrt(dx * dx + dy * dy)
 
-                if (dist < 200) {
-                    this.lines.push(
-                        new Line(
-                            this.app,
-                            this.grid[i].x,
-                            this.grid[i].y,
-                            this.grid[j].x,
-                            this.grid[j].y,
+
+                    const dx = this.grid[i].x - this.grid[j].x
+                    const dy = this.grid[i].y - this.grid[j].y
+
+                    const dist = Math.sqrt(dx * dx + dy * dy)
+
+                    if (dist < 200) {
+                        // console.log("bounce: ", dist)
+
+                        this.lines.push(
+                            new Line(
+                                this.app,
+                                this.grid[i].x,
+                                this.grid[i].y,
+                                this.grid[j].x,
+                                this.grid[j].y,
+                            )
                         )
-                    )
-                }
+                    }
 
+                    if (dist < this.radius) {
+                        this.grid[i].velocity *= -1
+                        this.grid[j].velocity *= -1
+                    }
+                }
             }
         }
     }
