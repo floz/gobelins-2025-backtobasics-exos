@@ -79,7 +79,9 @@ export default class Linker {
         for (const cell of this._cells) cell.update(dt);
     }
 
-    //#region Getter
+    //#region Getters
+    //
     public get cells(): Cell[] { return this._cells; }
+    //
     //#endregion
 }

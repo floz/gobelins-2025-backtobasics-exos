@@ -118,7 +118,9 @@ export default class Cell {
     }
 
     //#region Getters
+    //
     public get id(): string { return this._id; }
     public get position(): Point { return this._position; }
+    //
     //#endregion
 }

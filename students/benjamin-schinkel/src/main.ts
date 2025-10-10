@@ -3,6 +3,7 @@ import Linker from './components/Linker';
 import './style.css';
 
 //#region Config
+//
 export interface guiConfig {
   cellNumber: number;
   cellSize: number;
@@ -21,20 +22,26 @@ const guiConfig = {
   linkerColor: '#FF0000',
   linkerWidth: 1,
 }
+//
 //#endregion
 
 //#region Canvas
+//
 const canvas = document.createElement('canvas');
 const context = canvas.getContext('2d');
 canvas.classList.add('canvas');
 document.querySelector("body")!.appendChild(canvas);
+//
 //#endregion
 
 //#region Linker
+//
 const linker = new Linker(context!);
+//
 //#endregion
 
 //#region Gui
+//
 const onGuiChange = () => {
   linker.setConfig(guiConfig);
   linker.generateCells(guiConfig, canvas.width, canvas.height);
@@ -57,9 +64,11 @@ cellFolder.add(guiConfig, 'cellNumber', 1, 100, 1).name('Number').onChange(onGui
 cellFolder.add(guiConfig, 'cellSize', 5, 15, 1).name('Size').onChange(onGuiChange);
 cellFolder.add(guiConfig, 'cellSpeed', 100, 500, 50).name('Speed').onChange(onGuiChange);
 cellFolder.addColor(guiConfig, 'cellColor').name('Color').onChange(onGuiChange);
+//
 //#endregion
 
 //#region Resize
+//
 const onResize = (): void => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -67,9 +76,11 @@ const onResize = (): void => {
 }
 window.addEventListener('resize', onResize);
 onResize();
+//
 //#endregion
 
 //#region Ticker
+//
 let currentTime: number = Date.now();
 let elapsedTime: number = 0;
 let deltaTime: number = 0;
@@ -79,16 +90,17 @@ const ticker = () => {
   elapsedTime += deltaTime;
   currentTime = now;
 
-  if (deltaTime > 200) return;
-
   context?.clearRect(0, 0, canvas.width, canvas.height);
   linker.update(deltaTime);
   requestAnimationFrame(ticker);
 }
 ticker();
+//
 //#endregion
 
 //#region Start
+//
 linker.setConfig(guiConfig);
 linker.generateCells(guiConfig, canvas.width, canvas.height);
+//
 //#endregion
