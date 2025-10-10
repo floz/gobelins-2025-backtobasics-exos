@@ -63,7 +63,7 @@ export default class Grid {
 
                 }
             }
-            this.bubblesCount = this.yCount + this.xCount - 1
+            this.bubblesCount = this.yCount * this.xCount
         }
 
 
@@ -111,7 +111,6 @@ export default class Grid {
                 if (e === 0) {
                     this.xCount = 0
                     this.bubblesCount = 1
-
                 }
                 this.createGrid()
             })
