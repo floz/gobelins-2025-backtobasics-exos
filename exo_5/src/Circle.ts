@@ -56,8 +56,12 @@ export default class Circle {
          * First version
          */
 
+        this.x += this.dirX * this.velocity
+        this.y += this.dirY * this.velocity
 
 
+
+        
 
     }
     onMouseMove(e: any) {
