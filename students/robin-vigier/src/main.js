@@ -1,4 +1,5 @@
 import Cell from "./Cell";
+import GUI from 'lil-gui';
 
 const canvas = document.getElementById("canvas");
 
@@ -10,9 +11,10 @@ canvas.style.height = canvas.height / 2 + 'px';
 const ctx = canvas.getContext("2d");
 
 const data = {
-  cellSize : 20,
-  cellNumber : 100,
-  color : "#2650e8ff",
+  cellSize: 20,
+  cellNumber: 200,
+  color: "#2650e8ff",
+  maxDistance: 200
 }
 let cells = null;
 
@@ -26,17 +28,25 @@ function getAleatoryPosition() {
 function genCells() {
   cells = [];
 
-  for( let i = 0; i < data.cellNumber; i++ ) {
+  for (let i = 0; i < data.cellNumber; i++) {
+
     const cell = new Cell(data.cellSize);
+
     const [x, y] = getAleatoryPosition();
     cell.setPosition(x, y);
+
     cells.push(cell);
+
   }
+
+  cells.forEach(cell => {
+    cell.setOther(cells);
+  });
 }
 
 function drawCells() {
   cells.forEach(cell => {
-    cell.draw(ctx);
+    cell.draw(ctx, data.maxDistance, data.cellSize, data.color);
   });
 }
 
@@ -51,3 +61,15 @@ function tick() {
 genCells();
 
 window.requestAnimationFrame(tick);
+
+//
+
+const gui = new GUI();
+gui.add(data, 'cellSize', 5, 50, 1).name("Size");
+gui.add(data, 'cellNumber', 10, 300, 1).name("Entity").onChange(genCells);
+gui.add(data, 'maxDistance', 10, 500, 1).name("Distance").onChange(() => {
+  cells.forEach(cell => {
+    cell.setOther(cells);
+  });
+});
+gui.addColor(data, 'color').name("Color");
