@@ -7,6 +7,7 @@ export interface LinkerConfig {
     linkerDistance: number;
     linkerColor: string;
     linkerWidth: number;
+    linkerFillTriangles: boolean;
 }
 
 export default class Linker {
@@ -15,6 +16,7 @@ export default class Linker {
     private _distanceForLink: number;
     private _color: string;
     private _width: number;
+    private _fillTriangles: boolean;
 
     constructor(context: CanvasRenderingContext2D) {
         this._context = context;
@@ -22,12 +24,14 @@ export default class Linker {
         this._distanceForLink = 0;
         this._color = '#000000';
         this._width = 0;
+        this._fillTriangles = false;
     }
 
     public setConfig(config: LinkerConfig): void {
         this._distanceForLink = config.linkerDistance;
         this._color = config.linkerColor;
         this._width = config.linkerWidth;
+        this._fillTriangles = config.linkerFillTriangles;
     }
 
     public generateCells(config: guiConfig, canvasWidth: number, canvasHeight: number): void {
@@ -56,17 +60,46 @@ export default class Linker {
         for (let i = 0; i < this._cells.length; i++) {
             for (let j = i + 1; j < this._cells.length; j++) {
                 if (this._cells[i].id !== this._cells[j].id) {
-                    const dx = this._cells[j].position.x - this._cells[i].position.x;
-                    const dy = this._cells[j].position.y - this._cells[i].position.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < this._distanceForLink) {
-                        const opacity = Math.round((1 - distance / this._distanceForLink) * 255).toString(16).padStart(2, '0');
+                    const d = Math.hypot(this._cells[j].position.x - this._cells[i].position.x, this._cells[j].position.y - this._cells[i].position.y);
+
+                    if (d < this._distanceForLink) {
+                        const opacity = Math.round((1 - d / this._distanceForLink) * 255).toString(16).padStart(2, '0');
                         this._context.strokeStyle = this._color + opacity;
                         this._context.lineWidth = this._width;
                         this._context.beginPath();
                         this._context.moveTo(this._cells[i].position.x, this._cells[i].position.y);
                         this._context.lineTo(this._cells[j].position.x, this._cells[j].position.y);
+                        this._context.closePath();
                         this._context.stroke();
+                    }
+                }
+            }
+        }
+
+        if (this._fillTriangles) this._drawTriangles();
+    }
+
+    private _drawTriangles(): void {
+        for (let i = 0; i < this._cells.length; i++) {
+            for (let j = i + 1; j < this._cells.length; j++) {
+                for (let k = j + 1; k < this._cells.length; k++) {
+                    const d_ij = Math.hypot(this._cells[j].position.x - this._cells[i].position.x, this._cells[j].position.y - this._cells[i].position.y);
+                    const d_ik = Math.hypot(this._cells[k].position.x - this._cells[i].position.x, this._cells[k].position.y - this._cells[i].position.y);
+                    const d_jk = Math.hypot(this._cells[k].position.x - this._cells[j].position.x, this._cells[k].position.y - this._cells[j].position.y);
+
+                    if (d_ij < this._distanceForLink && d_ik < this._distanceForLink && d_jk < this._distanceForLink) {
+                        const opacity1 = Math.round((1 - d_ij / this._distanceForLink) * 255);
+                        const opacity2 = Math.round((1 - d_ik / this._distanceForLink) * 255);
+                        const opacity3 = Math.round((1 - d_jk / this._distanceForLink) * 255);
+                        const opacity = Math.round(((opacity1 + opacity2 + opacity3) / 3)).toString(16).padStart(2, '0');
+                        this._context.fillStyle = this._color + opacity;
+                        this._context.lineWidth = this._width;
+                        this._context.beginPath();
+                        this._context.moveTo(this._cells[i].position.x, this._cells[i].position.y);
+                        this._context.lineTo(this._cells[j].position.x, this._cells[j].position.y);
+                        this._context.lineTo(this._cells[k].position.x, this._cells[k].position.y);
+                        this._context.closePath();
+                        this._context.fill();
                     }
                 }
             }

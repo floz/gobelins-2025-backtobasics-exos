@@ -11,6 +11,7 @@ export interface guiConfig {
   cellSpeed: number;
   linkerDistance: number;
   linkerColor: string;
+  linkerFillTriangles: boolean;
 }
 
 const guiConfig = {
@@ -21,6 +22,7 @@ const guiConfig = {
   linkerDistance: 250,
   linkerColor: '#FF0000',
   linkerWidth: 1,
+  linkerFillTriangles: true,
 }
 //
 //#endregion
@@ -57,8 +59,9 @@ const onGuiChange = () => {
 const gui = new GUI();
 const linkerFolder = gui.addFolder('Linker');
 linkerFolder.add(guiConfig, 'linkerDistance', 100, 1000, 25).name('Distance for link').onChange(onGuiChange);
-linkerFolder.add(guiConfig, 'linkerWidth', 1, 10, 1).name('Width').onChange(onGuiChange);
+linkerFolder.add(guiConfig, 'linkerWidth', 1, 10, 1).name('Link Width').onChange(onGuiChange);
 linkerFolder.addColor(guiConfig, 'linkerColor').name('Color').onChange(onGuiChange);
+linkerFolder.add(guiConfig, 'linkerFillTriangles').name('Fill Triangles').onChange(onGuiChange);
 const cellFolder = gui.addFolder('Cell');
 cellFolder.add(guiConfig, 'cellNumber', 1, 100, 1).name('Number').onChange(onGuiChange);
 cellFolder.add(guiConfig, 'cellSize', 5, 15, 1).name('Size').onChange(onGuiChange);
