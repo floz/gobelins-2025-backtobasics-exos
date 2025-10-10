@@ -40,8 +40,8 @@ export default class Grid {
     createGrid() {
 
         for (let i = 0; i < this.bubblesCount; i++) {
-            const dirX = Math.random()
-            const dirY = Math.random()
+            const dirX = Math.random() - 0.5
+            const dirY = Math.random() - 0.5
             const velocity = Math.random()
             this.grid.push(new Circle(
                 this.app,

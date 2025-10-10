@@ -56,12 +56,27 @@ export default class Circle {
          * First version
          */
 
+
+        // Animate
         this.x += this.dirX * this.velocity
         this.y += this.dirY * this.velocity
 
+        // Bounce
+        /**
+         * TODO : 
+         * Revert angle + follow a trigonometric approach.
+         */
+
+        if (
+            this.x >= this.app.screenWidth
+            || this.x <= 0
+            || this.y <= 0
+            || this.y >= this.app.screenHeight
+        ) {
+            this.velocity *= -1
+        }
 
 
-        
 
     }
     onMouseMove(e: any) {
