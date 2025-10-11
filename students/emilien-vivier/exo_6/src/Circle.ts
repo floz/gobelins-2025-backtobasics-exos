@@ -65,7 +65,7 @@ export default class Circle {
 
         if(!this.app.audioAnalyzer.isMusicPlaying) return 
         this.amplitude = 10 + this.app.audioAnalyzer.na
-        this.noiseFactor = 0.004 + this.app.audioAnalyzer.nf
+        this.noiseFactor = 0.004 //+ this.app.audioAnalyzer.nf
     }
     onMouseMove(e: any) {
 
