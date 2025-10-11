@@ -26,6 +26,9 @@ export default class AudioAnalyzer {
     this.dataArray = new Uint8Array(this.bufferLength);
   }
   play() {
+    if (this.audioCtx.state === "suspended") {
+      this.audioCtx.resume();
+    }
     this.audio.play();
     this.isPlaying = true;
   }
