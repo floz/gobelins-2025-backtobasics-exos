@@ -61,10 +61,11 @@ export default class Circle {
 
     update(time: { elapsedTime: number, deltaTime: number }) {
 
-        /**
-         * First version
-         */
         this.time = time
+
+        if(!this.app.audioAnalyzer.isMusicPlaying) return 
+        this.amplitude = 10 + this.app.audioAnalyzer.na
+        this.noiseFactor = 0.004 + this.app.audioAnalyzer.nf
     }
     onMouseMove(e: any) {
 
