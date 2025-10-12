@@ -1,5 +1,6 @@
-import {Pane} from 'tweakpane';
+import { Pane } from 'tweakpane';
 import SimplexNoise from '../libs/noise';
+import Circle from './Circle';
 
 const canvas = document.getElementById("canvas");
 
@@ -12,88 +13,104 @@ const ctx = canvas.getContext("2d");
 
 const data = {
   size: 200,
-  color: "#2650e8ff",
+  color: "#2650e8",
   resolution: 80,
   weight: 2,
-  noisePosRatio : 0.006,
-  noisePosStr: 6.0,
+  noisePosRatio: 0.006,
+  noisePosStr: 30,
+  cols: 1,
+  rows: 1
 
 }
 
-const noise = new SimplexNoise();
+let circles = [];
 
 function drawCircle() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  const x = canvas.width / 2;
-  const y = canvas.height / 2;
+  circles.forEach(circle => {
+      circle.drawCircle(ctx, data.size, data.resolution, data.weight, data.noisePosRatio, data.noisePosStr);
+  })
 
-  ctx.strokeStyle = data.color;
-  ctx.beginPath();
-  ctx.save()
-  ctx.translate(x, y)
-  ctx.lineWidth = data.weight;
-  // ctx.moveTo(0, 0);
-
-  // ctx.moveTo(data.size, 0);
-
-  let a = 0
-
-  let step = (Math.PI * 2) / data.resolution;
-
-  for (let i = 0; i < data.resolution; i++) {
-    const dx = Math.cos(a) * data.size
-    const dy = Math.sin(a) * data.size
-
-    const noisePos = data.size + noise.noise2D(dx * data.noisePosRatio, dy * data.noisePosRatio) * data.noisePosStr
-    // const nx = dx + Math.cos(noisePos) * data.noisePosStr * 6
-    // const ny = dy + Math.sin(noisePos) * data.noisePosStr * 6
-    const nx = Math.cos(a) * noisePos
-    const ny = Math.sin(a) * noisePos
-
-
-    ctx.lineTo(nx, ny);
-
-    a += step;
-  }
-
-
-  // ctx.lineTo(data.size, 0);
-
-  ctx.closePath();
-  ctx.stroke();
-  ctx.restore()
 }
 
-drawCircle()
+function drawGrid() {
+  console.log("coucou")
+
+  circles = [];
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const xo = canvas.width / (1 + data.cols);
+  const yo = canvas.height / (1 + data.rows);
+
+  for (let iy = 0; iy < data.rows; iy++) {
+    for (let ix = 0; ix < data.cols; ix++) {
+      let x = xo + ix * xo;
+      let y = yo + iy * yo;
+
+      const circle = new Circle(data.size, x, y, data.color);
+
+      circles.push(circle)
+    }
+  }
+
+  drawCircle()
+}
+
+drawGrid();
 
 //
 
 const pane = new Pane();
-pane.addBinding(data, 'size', {
+
+const genFolder = pane.addFolder({
+  title: 'General',
+});
+
+genFolder.addBinding(data, 'cols', {
+  min: 1,
+  max: 40,
+  step: 1
+})
+
+genFolder.addBinding(data, 'rows', {
+  min: 1,
+  max: 40,
+  step: 1
+})
+
+genFolder.addBinding(data, 'color')
+
+genFolder.on("change", drawGrid);
+
+const circleFolder = pane.addFolder({
+  title: 'Circle',
+});
+circleFolder.addBinding(data, 'size', {
   min: 20,
   max: 500,
   step: 1
 })
-pane.addBinding(data, 'resolution', {
+circleFolder.addBinding(data, 'resolution', {
   min: 4,
   max: 200,
   step: 1
 })
-pane.addBinding(data, 'weight', {
+circleFolder.addBinding(data, 'weight', {
   min: 1,
   max: 10,
   step: 1
 })
-pane.addBinding(data, 'noisePosRatio', {
+circleFolder.addBinding(data, 'noisePosRatio', {
   min: 0,
   max: 0.1,
   step: 0.001
 })
-pane.addBinding(data, 'noisePosStr', {
+circleFolder.addBinding(data, 'noisePosStr', {
   min: 0,
   max: 200
 })
 
-pane.on('change', drawCircle);
+circleFolder.on('change', drawCircle);
