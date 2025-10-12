@@ -29,8 +29,8 @@ export default class Circle {
         let step = (Math.PI * 2) / resolution;
 
         for (let i = 0; i < resolution; i++) {
-            const dx = Math.cos(a) * this._radius
-            const dy = Math.sin(a) * this._radius
+            const dx = this._x + Math.cos(a) * this._radius
+            const dy = this._y + Math.sin(a) * this._radius
 
             const noisePos = this._radius + noise.noise2D(dx * noisePosRatio, dy * noisePosRatio) * noisePosStr
             // const nx = dx + Math.cos(noisePos) * noisePosStr * 6
